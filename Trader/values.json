@@ -1,0 +1,19 @@
+{
+    "infrastructure":{
+        "coal_mine":{
+            "cost":[
+                "value 100"
+            ],
+            "products": "coal 5",
+            "per":5
+        }
+    },
+    "materials":{
+        "coal":{
+            "value":1,
+            "infrastructure":"coal_mine"
+        }
+    }
+    
+    
+}
