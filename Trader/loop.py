@@ -1,17 +1,18 @@
-from .data import User
+from .data import *
+
+import asqlite
 
 import os
-import asqlite
 import typing
 from uuid import uuid4
 
 
 class Game_Loop:
     users:typing.List[typing.Tuple[str, User]]
-    schemas: typing.List[str]
+    schemas: typing.List[typing.Tuple[str, str]]
     def __init__(self):
         with open("./Trader/schema.sql") as f:
-            self.schemas = f.read().split(';')
+            self.schemas = [(command, schema) for command, schema in [line.split(',') for line in f.read().split(';')]]
             f.close()
         super().__init__()
 
@@ -25,7 +26,7 @@ class Game_Loop:
                 ...
     
     async def new_user(self, user_name):
-        user = User(user_name, uuid4, 0, 1000.0, f"{user_name}_Statue", 1000.0)
+        user = generate_new_user(user_name)
         async with self.connection as cursor:
             await cursor.execute(self.schemas[2].format(user.user_id, user.infrastructure, user.artifact_name, user.artifact_value, user.value))
         
